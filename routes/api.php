@@ -20,5 +20,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::get('/question-3', function () {
-    return Question3::all();
+    // return Question3::offset(0)->limit(3)->get();
+    return Question3::orderBy('id', 'desc')->limit(3)->get();
 });

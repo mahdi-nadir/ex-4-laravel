@@ -1,8 +1,11 @@
 <?php
 
+use Illuminate\Support\Facades\Gate;
+// use Illuminate\Auth\Access\Gate;
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Question4Controller;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Question5Controller;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,6 +22,16 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/question-1', function () {
+    Gate::authorize('admin');
+    return view('questions.1');
+})->name('question.1');
+
+Route::get('question-4', [Question4Controller::class, 'create'])->name('question.4.create');
+Route::post('question-4', [Question4Controller::class, 'store'])->name('question.4.store');
+
+Route::get('question-5', [Question5Controller::class, 'index'])->name('question.5');
+
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
@@ -27,13 +40,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-
-    Route::get('/question-1', function () {
-        return view('questions.1');
-    })->name('question.1');
-
-    Route::get('/question-4', [Question4Controller::class, 'create'])->name('question.4.create');
-    Route::post('/question-4', [Question4Controller::class, 'store'])->name('question.4.store');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

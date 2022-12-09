@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 // use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
@@ -25,6 +27,10 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        //
+        // check if email ends with @cmaisonneuve.qc.ca
+        Gate::define('admin', function ($user) {
+            // $lemail = explode('@', $user->email);
+            return Str::endsWith($user->email, '@cmaisonneuve.qc.ca');
+        });
     }
 }
