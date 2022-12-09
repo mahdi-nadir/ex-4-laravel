@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Question4Controller;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -30,6 +31,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/question-1', function () {
         return view('questions.1');
     })->name('question.1');
+
+    Route::get('/question-4', [Question4Controller::class, 'create'])->name('question.4.create');
+    Route::post('/question-4', [Question4Controller::class, 'store'])->name('question.4.store');
 });
 
 require __DIR__.'/auth.php';
